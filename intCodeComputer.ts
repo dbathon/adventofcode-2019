@@ -126,4 +126,24 @@ export class IntCodeComputer {
   run() {
     while (this.step()) { }
   }
+
+  runUntilOutputOrHalt() {
+    while (true) {
+      const cntBefore = this.output.length;
+      if (!this.step()) {
+        break;
+      }
+      if (this.output.length > cntBefore) {
+        break;
+      }
+    }
+  }
+
+  get didHalt() {
+    return this.read(this.pc) % 100 === 99;
+  }
+
+  get lastOutput() {
+    return this.output.length > 0 ? this.output[this.output.length - 1] : null;
+  }
 }
