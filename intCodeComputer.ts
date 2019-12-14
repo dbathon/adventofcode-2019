@@ -1,49 +1,83 @@
-import { p } from "./util";
+
+interface Param {
+  read(): number;
+  write(value: number): void;
+}
+
+class ImmediateParam implements Param {
+  constructor(readonly value: number) { }
+
+  read(): number {
+    return this.value;
+  }
+
+  write(value: number): void {
+    throw "write not supported for immediate mode parameters";
+  }
+}
+
+class AddressParam implements Param {
+  constructor(readonly computer: IntCodeComputer, readonly address: number) { }
+
+  read(): number {
+    return this.computer.read(this.address);
+  }
+
+  write(value: number): void {
+    this.computer.write(this.address, value);
+  }
+}
 
 class Op {
-  constructor(public opcode: number, public paramDecode: boolean[], public op: (computer: IntCodeComputer, params: number[]) => boolean | number) { }
+  constructor(readonly opcode: number, readonly paramCount: number, readonly op: (computer: IntCodeComputer, params: Param[]) => boolean | number) { }
 }
 
 const OPS = [
   // add
-  new Op(1, [true, true, false], (computer, params) => {
-    computer.write(params[2], params[0] + params[1]);
+  new Op(1, 3, (computer, params) => {
+    params[2].write(params[0].read() + params[1].read());
     return true;
   }),
   // multiply
-  new Op(2, [true, true, false], (computer, params) => {
-    computer.write(params[2], params[0] * params[1]);
+  new Op(2, 3, (computer, params) => {
+    params[2].write(params[0].read() * params[1].read());
     return true;
   }),
   // input
-  new Op(3, [false], (computer, params) => {
-    computer.write(params[0], computer.input.shift());
+  new Op(3, 1, (computer, params) => {
+    params[0].write(computer.input.shift());
     return true;
   }),
   // output
-  new Op(4, [true], (computer, params) => {
-    computer.output.push(params[0]);
+  new Op(4, 1, (computer, params) => {
+    computer.output.push(params[0].read());
     return true;
   }),
   // jump-if-true
-  new Op(5, [true, true], (computer, params) => {
-    return params[0] !== 0 ? params[1] : true;
+  new Op(5, 2, (computer, params) => {
+    return params[0].read() !== 0 ? params[1].read() : true;
   }),
   // jump-if-false
-  new Op(6, [true, true], (computer, params) => {
-    return params[0] === 0 ? params[1] : true;
+  new Op(6, 2, (computer, params) => {
+    return params[0].read() === 0 ? params[1].read() : true;
   }),
   // less than
-  new Op(7, [true, true, false], (computer, params) => {
-    computer.write(params[2], params[0] < params[1] ? 1 : 0);
+  new Op(7, 3, (computer, params) => {
+    params[2].write(params[0].read() < params[1].read() ? 1 : 0);
     return true;
   }),
   // equals
-  new Op(8, [true, true, false], (computer, params) => {
-    computer.write(params[2], params[0] === params[1] ? 1 : 0);
+  new Op(8, 3, (computer, params) => {
+    params[2].write(params[0].read() === params[1].read() ? 1 : 0);
     return true;
   }),
-  new Op(99, [], (computer, params) => {
+  // set relativeBase
+  new Op(9, 1, (computer, params) => {
+    computer.relativeBase += params[0].read();
+    return true;
+  }),
+  // halt
+  new Op(99, 0, (computer, params) => {
     return false;
   }),
 ];
@@ -53,23 +87,26 @@ OPS.forEach(op => OPS_BY_OPCODE.set(op.opcode, op));
 
 export class IntCodeComputer {
   pc: number = 0;
+  relativeBase: number = 0;
   memory: number[];
-  input: number[] = []
-  output: number[] = []
+  input: number[];
+  output: number[] = [];
 
-  constructor(memory: number[]) {
+  constructor(memory: number[], input: number[] = []) {
     this.memory = memory.slice(0);
+    this.input = input.slice(0);
   }
 
   private checkAddress(address: number) {
-    if (address < 0 || address >= this.memory.length) {
+    if (address < 0) {
       throw "invalid address: " + address;
     }
   }
 
   read(address: number) {
     this.checkAddress(address);
-    return this.memory[address];
+    const result = this.memory[address];
+    return result === undefined ? 0 : result;
   }
 
   write(address: number, value: number) {
@@ -84,37 +121,29 @@ export class IntCodeComputer {
       throw "invalid opcode " + opcode + " at " + this.pc;
     }
 
-    const params = [];
+    const params: Param[] = [];
 
-    const paramCount = op.paramDecode.length;
     let decodeInfo = Math.floor(opcode / 100);
-    for (let i = 0; i < paramCount; ++i) {
-      const readValue = this.read(this.pc + i + 1);
-      if (op.paramDecode[i]) {
-        switch (decodeInfo % 10) {
-          case 0:
-            params.push(this.read(readValue));
-            break;
-          case 1:
-            params.push(readValue);
-            break;
-          default:
-            throw "invalid decode info in opcode " + opcode + " at " + this.pc + ", i = " + i;
-        }
+    for (let i = 0; i < op.paramCount; ++i) {
+      const paramValue = this.read(this.pc + i + 1);
+      const paramMode = decodeInfo % 10;
+      if (paramMode === 1) {
+        params.push(new ImmediateParam(paramValue));
+      }
+      else if (paramMode === 0 || paramMode === 2) {
+        const address = paramValue + (paramMode === 2 ? this.relativeBase : 0);
+        params.push(new AddressParam(this, address));
       }
       else {
-        params.push(readValue);
+        throw "invalid decode info in opcode " + opcode + " at " + this.pc + ", i = " + i;
       }
 
       decodeInfo = Math.floor(decodeInfo / 10);
     }
 
-    //p(this.memory);
-    //p(`pc: ${this.pc}, op: ${opcode}, params: ${params}`);
-
     const result = op.op(this, params);
     if (result === true) {
-      this.pc += paramCount + 1;
+      this.pc += op.paramCount + 1;
     }
     else if (typeof result === "number") {
       this.pc = result;
@@ -125,6 +154,7 @@ export class IntCodeComputer {
 
   run() {
     while (this.step()) { }
+    return this.output;
   }
 
   runUntilOutputOrHalt() {
