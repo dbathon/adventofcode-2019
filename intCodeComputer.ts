@@ -45,12 +45,12 @@ const OPS = [
   }),
   // input
   new Op(3, 1, (computer, params) => {
-    params[0].write(computer.input.shift());
+    params[0].write(computer.readInput());
     return true;
   }),
   // output
   new Op(4, 1, (computer, params) => {
-    computer.output.push(params[0].read());
+    computer.writeOutput(params[0].read());
     return true;
   }),
   // jump-if-true
@@ -91,6 +91,9 @@ export class IntCodeComputer {
   memory: number[];
   input: number[];
   output: number[] = [];
+
+  readInput: () => number = () => this.input.shift();
+  writeOutput: (value: number) => void = (value: number) => this.output.push(value);
 
   constructor(memory: number[], input: number[] = []) {
     this.memory = memory.slice(0);
@@ -159,11 +162,12 @@ export class IntCodeComputer {
 
   runUntilOutputOrHalt() {
     while (true) {
-      const cntBefore = this.output.length;
+      const opcode = this.read(this.pc);
       if (!this.step()) {
         break;
       }
-      if (this.output.length > cntBefore) {
+      if (opcode % 100 === 4) {
+        // the last opcode was output
         break;
       }
     }
