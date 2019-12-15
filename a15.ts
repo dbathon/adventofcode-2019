@@ -7,15 +7,6 @@ const EMPTY = ".";
 const WALL = "#";
 const OXYGEN = "O";
 
-const map: Map2D<string> = new Map2D();
-
-let x = 0, y = 0;
-map.set(x, y, EMPTY);
-
-class State {
-  constructor(readonly computer: IntCodeComputer, readonly path: number[], readonly x: number, readonly y: number) { }
-}
-
 class Direction {
   constructor(readonly command: number, readonly xOffset: number, readonly yOffset: number) { }
 }
@@ -25,11 +16,18 @@ const DIRECTIONS = [
   new Direction(2, 0, 1),
   new Direction(3, -1, 0),
   new Direction(4, 1, 0)
-]
+];
+
+class State {
+  constructor(readonly computer: IntCodeComputer, readonly path: number[], readonly x: number, readonly y: number) { }
+}
 
 const queue: State[] = [
   new State(new IntCodeComputer(memory), [], 0, 0)
 ];
+
+const map: Map2D<string> = new Map2D();
+map.set(0, 0, EMPTY);
 
 while (queue.length > 0) {
   const state = queue.shift();
