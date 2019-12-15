@@ -45,12 +45,16 @@ const OPS = [
   }),
   // input
   new Op(3, 1, (computer, params) => {
-    params[0].write(computer.readInput());
+    const value = computer.readInput(computer);
+    if (typeof value !== "number") {
+      throw "no input available";
+    }
+    params[0].write(value);
     return true;
   }),
   // output
   new Op(4, 1, (computer, params) => {
-    computer.writeOutput(params[0].read());
+    computer.writeOutput(params[0].read(), computer);
     return true;
   }),
   // jump-if-true
@@ -92,12 +96,25 @@ export class IntCodeComputer {
   input: number[];
   output: number[] = [];
 
-  readInput: () => number = () => this.input.shift();
-  writeOutput: (value: number) => void = (value: number) => this.output.push(value);
+  readInput: (computer: IntCodeComputer) => number = (computer) => computer.input.shift();
+  writeOutput: (value: number, computer: IntCodeComputer) => void = (value, computer) => computer.output.push(value);
 
   constructor(memory: number[], input: number[] = []) {
     this.memory = memory.slice(0);
     this.input = input.slice(0);
+  }
+
+  /**
+   * @returns a copy of this IntCodeComputer with all the state, both instances can be used indepedently.
+   */
+  copy(): IntCodeComputer {
+    const result = new IntCodeComputer(this.memory, this.input);
+    result.pc = this.pc;
+    result.relativeBase = this.relativeBase;
+    result.output = this.output.slice(0);
+    result.readInput = this.readInput;
+    result.writeOutput = this.writeOutput;
+    return result;
   }
 
   private checkAddress(address: number) {
@@ -178,6 +195,6 @@ export class IntCodeComputer {
   }
 
   get lastOutput() {
-    return this.output.length > 0 ? this.output[this.output.length - 1] : null;
+    return this.output[this.output.length - 1];
   }
 }
