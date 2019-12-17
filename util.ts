@@ -71,13 +71,10 @@ export class Map2D<T> {
       }
 
       // now just copy the data from oldMap
-      for (let y = 0; y < oldMap.dimension; ++y) {
-        for (let x = 0; x < oldMap.dimension; ++x) {
-          const realX = oldMap.originX + x;
-          const realY = oldMap.originY + y;
-          this.set(realX, realY, oldMap.get(realX, realY));
-        }
-      }
+      oldMap.forEach((x, y, value) => {
+        this.set(x, y, value);
+      })
+
       return this.getIndex(x, y);
     }
     return (yIndex * this.dimension) + xIndex;
@@ -91,6 +88,19 @@ export class Map2D<T> {
   set(x: number, y: number, value: T): void {
     if (value !== undefined) {
       this.data[this.getIndex(x, y)] = value;
+    }
+  }
+
+  forEach(callback: (x: number, y: number, value: T) => any) {
+    const dimension = this.dimension;
+    const originX = this.originX;
+    const originY = this.originY;
+    for (let y = 0; y < dimension; ++y) {
+      for (let x = 0; x < dimension; ++x) {
+        const realX = originX + x;
+        const realY = originY + y;
+        callback(realX, realY, this.get(realX, realY));
+      }
     }
   }
 
