@@ -52,10 +52,13 @@ export class Map2D<T> {
     return result;
   }
 
-  private getIndex(x: number, y: number): number {
+  private getIndex(x: number, y: number, grow = false): number {
     const xIndex = x - this.originX;
     const yIndex = y - this.originY;
     if (xIndex < 0 || xIndex >= this.dimension || yIndex < 0 || yIndex >= this.dimension) {
+      if (!grow) {
+        return undefined;
+      }
       // we need to grow
       const oldMap: Map2D<T> = this.copy();
 
@@ -87,7 +90,7 @@ export class Map2D<T> {
 
   set(x: number, y: number, value: T): void {
     if (value !== undefined) {
-      this.data[this.getIndex(x, y)] = value;
+      this.data[this.getIndex(x, y, true)] = value;
     }
   }
 
