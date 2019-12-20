@@ -1,5 +1,6 @@
 import { IntCodeComputer } from './intCodeComputer';
-import { readLines, p, Map2D } from './util';
+import { readLines, p } from './util';
+import { Map2D } from "./map2D";
 
 const memory = readLines('input/a11.txt')[0].split(",").map(str => parseInt(str));
 
