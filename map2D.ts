@@ -1,5 +1,6 @@
+import { Node } from './graphUtil';
 
-export class Map2DNode<T> {
+export class Map2DNode<T> implements Node {
   constructor(readonly map: Map2D<T>, readonly x: number, readonly y: number) { }
 
   get value(): T {
@@ -7,6 +8,10 @@ export class Map2DNode<T> {
   }
   set value(value: T) {
     this.map.set(this.x, this.y, value);
+  }
+
+  getNodeKey() {
+    return this.x + ";" + this.y;
   }
 
   getUp() {
