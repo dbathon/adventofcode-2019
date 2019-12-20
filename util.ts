@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
 
-export function readLines(path: string) {
+export function readLines(path: string, trim = true) {
   const input = readFileSync(path).toString();
-  return input.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+  return input.split('\n').map(line => trim ? line.trim() : line).filter(line => line.length > 0);
 }
 
 export function sum(numbers: number[]) {

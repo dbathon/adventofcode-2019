@@ -109,6 +109,10 @@ export class Map2D<T> {
     }
   }
 
+  forEachNode(callback: (node: Map2DNode<T>) => any) {
+    this.forEach((x, y) => callback(this.getNode(x, y)));
+  }
+
   getAsArray(): T[][] {
     const result: T[][] = [];
     for (let y = 0; y < this.dimension; ++y) {
