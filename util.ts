@@ -10,7 +10,12 @@ export function sum(numbers: number[]) {
 }
 
 export function p(input: any) {
-  console.log(typeof input === "string" ? input : JSON.stringify(input));
+  console.log(typeof input === "string"
+    ? input
+    : JSON.stringify(input, (key, value) =>
+      typeof value === 'bigint'
+        ? value.toString()
+        : value));
 }
 
 export function splitArray<T>(array: T[], splitLength: number): T[][] {
