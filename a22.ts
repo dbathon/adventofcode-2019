@@ -55,6 +55,13 @@ class ModOperation {
     return a;
   }
 
+  copy() {
+    const result = new ModOperation(this.m);
+    result.multiplier = this.multiplier;
+    result.extra = this.extra;
+    return result;
+  }
+
   plus(a: bigint) {
     this.extra = (this.extra + this.makePositive(a)) % this.m;
   }
@@ -65,8 +72,15 @@ class ModOperation {
     this.extra = (this.extra * positiveA) % this.m;
   }
 
-  eval(a: bigint) {
+  eval(a: bigint): bigint {
     return (this.multiplier * this.makePositive(a) + this.extra) % this.m;
+  }
+
+  evalOp(modOperation: ModOperation): ModOperation {
+    const result = this.copy();
+    result.multiply(modOperation.multiplier);
+    result.plus(modOperation.extra);
+    return result;
   }
 }
 
@@ -135,21 +149,26 @@ function operationsAsModOperation(input: string[], n: bigint, inverse = false): 
 }
 
 {
+  function evalTimes(op: ModOperation, times: bigint) {
+    if (times <= 0n) {
+      return new ModOperation(op.m);
+    }
+    let result = op;
+    let cur = 1n;
+    while (true) {
+      if (cur * 2n > times) {
+        break;
+      }
+      cur *= 2n;
+      result = result.evalOp(result);
+    }
+    return result.evalOp(evalTimes(op, times - cur));
+  }
+
   const N = 119315717514047n;
   const endPos = 2020n;
 
   const inverseOperation = operationsAsModOperation(input, N, true);
-  p(inverseOperation);
 
-  let curPos = endPos;
-  for (let i = 1; i < 5; ++i) {
-    curPos = inverseOperation.eval(curPos);
-    if (curPos === endPos) {
-      p(i);
-      break;
-    }
-    p([i, curPos]);
-  }
-
-  p(curPos);
+  p(evalTimes(inverseOperation, 101741582076661n).eval(endPos));
 }
