@@ -37,23 +37,31 @@ export class Map2DNode<T> implements Node {
  */
 export class Map2D<T> {
   private data: T[] = [];
-  dimension = 10;
+  private _width = 1;
   originX = 0;
   originY = 0;
 
   copy(): Map2D<T> {
     const result: Map2D<T> = new Map2D();
     result.data = this.data.slice(0);
-    result.dimension = this.dimension;
+    result._width = this._width;
     result.originX = this.originX;
     result.originY = this.originY;
     return result;
   }
 
+  get width(): number {
+    return this._width;
+  }
+
+  get height(): number {
+    return Math.ceil(this.data.length / this._width);
+  }
+
   private getIndex(x: number, y: number, grow = false): number {
     const xIndex = x - this.originX;
     const yIndex = y - this.originY;
-    if (xIndex < 0 || xIndex >= this.dimension || yIndex < 0 || yIndex >= this.dimension) {
+    if (xIndex < 0 || xIndex >= this._width || yIndex < 0) {
       if (!grow) {
         return undefined;
       }
@@ -67,8 +75,8 @@ export class Map2D<T> {
       if (yIndex < 0) {
         this.originY = y;
       }
-      if (xIndex >= this.dimension || yIndex >= this.dimension) {
-        this.dimension = Math.max(xIndex, yIndex) + 1;
+      if (xIndex >= this._width) {
+        this._width = xIndex + 1;
       }
 
       // now just copy the data from oldMap
@@ -78,7 +86,7 @@ export class Map2D<T> {
 
       return this.getIndex(x, y);
     }
-    return (yIndex * this.dimension) + xIndex;
+    return (yIndex * this._width) + xIndex;
   }
 
   get(x: number, y: number): T {
@@ -97,11 +105,12 @@ export class Map2D<T> {
   }
 
   forEach(callback: (x: number, y: number, value: T) => any) {
-    const dimension = this.dimension;
+    const width = this.width;
+    const height = this.height;
     const originX = this.originX;
     const originY = this.originY;
-    for (let y = 0; y < dimension; ++y) {
-      for (let x = 0; x < dimension; ++x) {
+    for (let y = 0; y < height; ++y) {
+      for (let x = 0; x < width; ++x) {
         const realX = originX + x;
         const realY = originY + y;
         callback(realX, realY, this.get(realX, realY));
@@ -114,11 +123,13 @@ export class Map2D<T> {
   }
 
   getAsArray(): T[][] {
+    const width = this.width;
+    const height = this.height;
     const result: T[][] = [];
-    for (let y = 0; y < this.dimension; ++y) {
+    for (let y = 0; y < height; ++y) {
       const row: T[] = [];
       result.push(row);
-      for (let x = 0; x < this.dimension; ++x) {
+      for (let x = 0; x < width; ++x) {
         row[x] = this.get(this.originX + x, this.originY + y);
       }
     }

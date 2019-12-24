@@ -69,8 +69,8 @@ while (true) {
   let progress = false;
   const newOxyMap = oxyMap.copy();
 
-  const xMax = oxyMap.originX + oxyMap.dimension;
-  const yMax = oxyMap.originY + oxyMap.dimension;
+  const xMax = oxyMap.originX + oxyMap.width;
+  const yMax = oxyMap.originY + oxyMap.height;
   for (let x = oxyMap.originX; x < xMax; ++x) {
     for (let y = oxyMap.originY; y < yMax; ++y) {
       if (oxyMap.get(x, y) === OXYGEN) {

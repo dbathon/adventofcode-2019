@@ -63,8 +63,8 @@ const INSIDE_OFFSET = 6;
 
 function isInside(nodeKey: string) {
   const [x, y] = nodeKey.split(";").map(str => parseInt(str));
-  return x >= INSIDE_OFFSET && x <= map.dimension - INSIDE_OFFSET
-    && y >= INSIDE_OFFSET && y <= map.dimension - INSIDE_OFFSET;
+  return x >= INSIDE_OFFSET && x <= map.width - INSIDE_OFFSET
+    && y >= INSIDE_OFFSET && y <= map.height - INSIDE_OFFSET;
 }
 
 portals.forEach((node, nodeKey) => {
