@@ -190,6 +190,19 @@ export class IntCodeComputer {
     }
   }
 
+  runUntilInputRequiredOrHalt() {
+    while (true) {
+      const opcode = this.read(this.pc);
+      if (opcode % 100 === 3 && this.input.length === 0) {
+        // the next opcode is input
+        break;
+      }
+      if (!this.step()) {
+        break;
+      }
+    }
+  }
+
   get didHalt() {
     return this.read(this.pc) % 100 === 99;
   }
