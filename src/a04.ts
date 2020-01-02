@@ -1,4 +1,4 @@
-import { p } from "./util";
+import { p } from "./util/util";
 
 function rulesMet(pass: number, extended = false) {
   const str: string = pass + "";

@@ -1,4 +1,4 @@
-import { readLines, p } from "./util";
+import { readLines, p } from "./util/util";
 
 const lines = readLines('input/a03.txt');
 const line1 = lines[0].split(",");

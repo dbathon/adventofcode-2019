@@ -1,5 +1,5 @@
-import { IntCodeComputer } from './intCodeComputer';
-import { readLines, p } from './util';
+import { IntCodeComputer } from './util/intCodeComputer';
+import { readLines, p } from './util/util';
 
 const memory = readLines('input/a21.txt')[0].split(",").map(str => parseInt(str));
 

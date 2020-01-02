@@ -1,5 +1,5 @@
-import { p, readLines, findMax } from "./util";
-import { Map2D } from "./map2D";
+import { p, readLines, findMax } from "./util/util";
+import { Map2D } from "./util/map2D";
 
 const input = readLines('input/a10.txt');
 

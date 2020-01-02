@@ -1,4 +1,4 @@
-import { readLines, sum, p } from './util';
+import { readLines, sum, p } from './util/util';
 
 const numbers = readLines('input/a01.txt').map(str => parseInt(str));
 

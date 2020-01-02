@@ -1,4 +1,4 @@
-import { p, readLines, sum } from "./util";
+import { p, readLines, sum } from "./util/util";
 
 const input = readLines('input/a12.txt');
 

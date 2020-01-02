@@ -1,6 +1,6 @@
-import { p, readLines } from "./util";
-import { Map2D, Map2DNode } from "./map2D";
-import { dijkstraSearch, Neighbor, Node as DijkstraNode } from "./graphUtil";
+import { p, readLines } from "./util/util";
+import { Map2D, Map2DNode } from "./util/map2D";
+import { dijkstraSearch, Neighbor, Node as DijkstraNode } from "./util/graphUtil";
 
 const input = readLines('input/a20.txt', false);
 

@@ -1,5 +1,5 @@
-import { p, readLines } from "./util";
-import { Map2D, Map2DNode } from "./map2D";
+import { p, readLines } from "./util/util";
+import { Map2D, Map2DNode } from "./util/map2D";
 
 const input = readLines('input/a24.txt');
 
