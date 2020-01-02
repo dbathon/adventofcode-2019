@@ -1,11 +1,43 @@
 {
   "name": "aoc-2019",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "dbathon",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "a01": "ts-node src/a01.ts",
+    "a02": "ts-node src/a02.ts",
+    "a03": "ts-node src/a03.ts",
+    "a04": "ts-node src/a04.ts",
+    "a05": "ts-node src/a05.ts",
+    "a06": "ts-node src/a06.ts",
+    "a07": "ts-node src/a07.ts",
+    "a08": "ts-node src/a08.ts",
+    "a09": "ts-node src/a09.ts",
+    "a10": "ts-node src/a10.ts",
+    "a11": "ts-node src/a11.ts",
+    "a12": "ts-node src/a12.ts",
+    "a13": "ts-node src/a13.ts",
+    "a14": "ts-node src/a14.ts",
+    "a15": "ts-node src/a15.ts",
+    "a16": "ts-node src/a16.ts",
+    "a17": "ts-node src/a17.ts",
+    "a18": "ts-node src/a18.ts",
+    "a19": "ts-node src/a19.ts",
+    "a20": "ts-node src/a20.ts",
+    "a21": "ts-node src/a21.ts",
+    "a22": "ts-node src/a22.ts",
+    "a23": "ts-node src/a23.ts",
+    "a24": "ts-node src/a24.ts",
+    "a25": "ts-node src/a25.ts",
+    "a25-interactive": "ts-node src/a25-interactive.ts",
+    "all": "ts-node src/runAll.ts"
+  },
   "dependencies": {
     "@types/node": "^12.12.14"
+  },
+  "devDependencies": {
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
   }
 }
