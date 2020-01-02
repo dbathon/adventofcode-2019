@@ -3,10 +3,10 @@ import { Node } from './graphUtil';
 export class Map2DNode<T> implements Node {
   constructor(readonly map: Map2D<T>, readonly x: number, readonly y: number) { }
 
-  get value(): T {
+  get value(): T | undefined {
     return this.map.get(this.x, this.y);
   }
-  set value(value: T) {
+  set value(value: T | undefined) {
     this.map.set(this.x, this.y, value);
   }
 
@@ -58,7 +58,7 @@ export class Map2D<T> {
     return Math.ceil(this.data.length / this._width);
   }
 
-  private getIndex(x: number, y: number, grow = false): number {
+  private getIndex(x: number, y: number, grow = false): number | undefined {
     const xIndex = x - this.originX;
     const yIndex = y - this.originY;
     if (xIndex < 0 || xIndex >= this._width || yIndex < 0) {
@@ -89,14 +89,14 @@ export class Map2D<T> {
     return (yIndex * this._width) + xIndex;
   }
 
-  get(x: number, y: number): T {
+  get(x: number, y: number): T | undefined {
     const index = this.getIndex(x, y);
     return index === undefined ? undefined : this.data[index];
   }
 
-  set(x: number, y: number, value: T): void {
+  set(x: number, y: number, value: T | undefined): void {
     if (value !== undefined) {
-      this.data[this.getIndex(x, y, true)] = value;
+      this.data[this.getIndex(x, y, true)!] = value;
     }
   }
 
@@ -104,7 +104,7 @@ export class Map2D<T> {
     return new Map2DNode<T>(this, x, y);
   }
 
-  forEach(callback: (x: number, y: number, value: T) => any) {
+  forEach(callback: (x: number, y: number, value: T | undefined) => any) {
     const width = this.width;
     const height = this.height;
     const originX = this.originX;
@@ -122,12 +122,12 @@ export class Map2D<T> {
     this.forEach((x, y) => callback(this.getNode(x, y)));
   }
 
-  getAsArray(): T[][] {
+  getAsArray(): (T | undefined)[][] {
     const width = this.width;
     const height = this.height;
-    const result: T[][] = [];
+    const result: (T | undefined)[][] = [];
     for (let y = 0; y < height; ++y) {
-      const row: T[] = [];
+      const row: (T | undefined)[] = [];
       result.push(row);
       for (let x = 0; x < width; ++x) {
         row[x] = this.get(this.originX + x, this.originY + y);

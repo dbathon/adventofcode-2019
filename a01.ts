@@ -10,7 +10,7 @@ function fuel(input: number) {
 
 p(sum(numbers.map(fuel)));
 
-function fuelRec(input: number) {
+function fuelRec(input: number): number {
   let result = fuel(input);
   return result <= 0 ? 0 : result + fuelRec(result);
 }

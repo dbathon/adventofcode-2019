@@ -149,7 +149,7 @@ function operationsAsModOperation(input: string[], n: bigint, inverse = false): 
 }
 
 {
-  function evalTimes(op: ModOperation, times: bigint) {
+  function evalTimes(op: ModOperation, times: bigint): ModOperation {
     if (times <= 0n) {
       return new ModOperation(op.m);
     }

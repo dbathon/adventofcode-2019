@@ -26,9 +26,9 @@ export function splitArray<T>(array: T[], splitLength: number): T[][] {
   return result;
 }
 
-export function findMax<T>(list: T[], toNumber: (t: T) => number): { max: number, maxElement: T } {
-  let max = undefined;
-  let maxElement = undefined;
+export function findMax<T>(list: T[], toNumber: (t: T) => number): { max: number | undefined, maxElement: T | undefined } {
+  let max: number | undefined = undefined;
+  let maxElement: T | undefined = undefined;
   list.forEach(element => {
     const value = toNumber(element);
     if (typeof max === "undefined" || value > max) {
@@ -94,7 +94,7 @@ export class Heap<T> {
     }
     else {
       let index = 0;
-      this.data[index] = this.data.pop();
+      this.data[index] = this.data.pop()!;
       const newSize = this.size;
       while (index < newSize) {
         const child1 = this.child1Index(index);

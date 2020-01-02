@@ -54,7 +54,7 @@ computer.runUntilInputRequiredOrHalt();
 
 p(outputToText(computer.output));
 
-const items = collectCommands
+const items: (string | undefined)[] = collectCommands
   .filter(c => c.startsWith("take ")).map(c => c.substr(5));
 p(items);
 

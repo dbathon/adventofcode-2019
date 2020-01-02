@@ -21,7 +21,7 @@ computer.run().forEach(output => {
   }
 });
 
-const SCAFFOLD = ["#", "^", "v", "<", ">"];
+const SCAFFOLD: (string | undefined)[] = ["#", "^", "v", "<", ">"];
 
 p(map.draw());
 
@@ -33,7 +33,7 @@ map.forEach((x, y, value) => {
       && SCAFFOLD.includes(map.get(x, y + 1)) && SCAFFOLD.includes(map.get(x, y - 1))) {
       alignmentSum += x * y;
     }
-    if (value !== "#") {
+    if (value !== undefined && value !== "#") {
       startX = x;
       startY = y;
       startDirection = value;
@@ -64,11 +64,11 @@ const fullPath: any[] = [];
 {
   let x = startX;
   let y = startY;
-  let direction = DIRECTIONS.get(startDirection);
+  let direction = DIRECTIONS.get(startDirection)!;
   while (true) {
     // find turn direction
-    const leftDirection = DIRECTIONS.get(direction.left);
-    const rightDirection = DIRECTIONS.get(direction.right);
+    const leftDirection = DIRECTIONS.get(direction.left)!;
+    const rightDirection = DIRECTIONS.get(direction.right)!;
     let dirChar: string;
     if (map.get(x + leftDirection.xOffset, y + leftDirection.yOffset) === "#") {
       dirChar = "L";

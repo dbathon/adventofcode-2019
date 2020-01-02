@@ -13,9 +13,9 @@ function count(layer: string[], element: string) {
 
 const res1 = findMax(layers, (layer) => {
   return -count(layer, "0");
-});
+}).maxElement!;
 
-p(count(res1.maxElement, "1") * count(res1.maxElement, "2"));
+p(count(res1, "1") * count(res1, "2"));
 
 const image: string[] = [];
 

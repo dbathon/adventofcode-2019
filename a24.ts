@@ -58,7 +58,7 @@ function nextIterationRecursive(levels: Map2D<Map2D<string>>): Map2D<Map2D<strin
   levels.forEach((x, y) => result.set(x, y, new Map2D<string>()));
 
   result.forEachNode(resultLevelNode => {
-    const resultMap = resultLevelNode.value;
+    const resultMap = resultLevelNode.value!;
     const levelNode = levels.getNode(resultLevelNode.x, resultLevelNode.y);
     let map = levelNode.value;
     if (map === undefined) {
@@ -132,7 +132,7 @@ function nextIterationRecursive(levels: Map2D<Map2D<string>>): Map2D<Map2D<strin
 function printLevels(levels: Map2D<Map2D<string>>) {
   levels.forEach((_, y, map) => {
     p("----------- " + y);
-    p(map.draw());
+    p(map!.draw());
   });
 }
 
@@ -145,7 +145,7 @@ for (let i = 0; i < 200; ++i) {
 
 let count = 0;
 levels.forEachNode(node => {
-  node.value.forEachNode(node2 => {
+  node.value!.forEachNode(node2 => {
     if (node2.value === "#") {
       ++count;
     }

@@ -31,7 +31,7 @@ const map: Map2D<string> = new Map2D();
 map.set(0, 0, EMPTY);
 
 while (queue.length > 0) {
-  const state = queue.shift();
+  const state = queue.shift()!;
   DIRECTIONS.forEach(direction => {
     const newX = state.x + direction.xOffset;
     const newY = state.y + direction.yOffset;

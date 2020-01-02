@@ -24,8 +24,8 @@ function run(withNatHandling = false) {
     computers.push(computer);
   }
 
-  let lastNatX: number = undefined,
-    lastNatY: number = undefined;
+  let lastNatX: number | undefined = undefined,
+    lastNatY: number | undefined = undefined;
 
   outer: while (true) {
     for (let i = 0; i < 50; ++i) {
@@ -37,9 +37,9 @@ function run(withNatHandling = false) {
         lastOp[i] = "out";
       }
       if (outLengthAfter === 3) {
-        const address = computer.output.shift();
-        const x = computer.output.shift();
-        const y = computer.output.shift();
+        const address = computer.output.shift()!;
+        const x = computer.output.shift()!;
+        const y = computer.output.shift()!;
         if (address >= 0 && address < 50) {
           computers[address].input.push(x);
           computers[address].input.push(y);
@@ -59,7 +59,8 @@ function run(withNatHandling = false) {
       }
     }
 
-    if (withNatHandling && lastNatY !== undefined && computers.every((_, i) => lastOp[i] === "no in")) {
+    if (withNatHandling && lastNatX !== undefined && lastNatY !== undefined
+      && computers.every((_, i) => lastOp[i] === "no in")) {
       computers[0].input.push(lastNatX);
       computers[0].input.push(lastNatY);
       // reset lastOp

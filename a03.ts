@@ -51,6 +51,6 @@ p("--------------");
 
 p1.forEach((dist, pos) => {
   if (p2.has(pos)) {
-    p(dist + p2.get(pos));
+    p(dist + p2.get(pos)!);
   }
 });

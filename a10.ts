@@ -20,7 +20,7 @@ input.forEach((line, y) => {
   });
 });
 
-function gcd(a: number, b: number) {
+function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
 }
 
@@ -58,7 +58,7 @@ const visibleCounts = asteroids.map(asteroid => {
 const best = findMax(visibleCounts, element => element.cntVisisble);
 p(best);
 
-const bestAsteroid = best.maxElement.asteroid;
+const bestAsteroid = best.maxElement!.asteroid;
 const visibleFromBest = getVisibleAsteroids(bestAsteroid);
 
 function angle(a1: Asteroid, a2: Asteroid) {

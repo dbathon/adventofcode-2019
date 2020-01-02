@@ -96,7 +96,7 @@ export class IntCodeComputer {
   input: number[];
   output: number[] = [];
 
-  readInput: (computer: IntCodeComputer) => number = (computer) => computer.input.shift();
+  readInput: (computer: IntCodeComputer) => number | undefined = (computer) => computer.input.shift();
   writeOutput: (value: number, computer: IntCodeComputer) => void = (value, computer) => computer.output.push(value);
 
   constructor(memory: number[], input: number[] = []) {

@@ -36,6 +36,9 @@ const moons2: Moon[] = [];
 
 input.forEach(line => {
   const match = /<x=([\d\-]+), y=([\d\-]+), z=([\d\-]+)>/.exec(line);
+  if (match === null) {
+    throw "invalid input line: " + line;
+  }
   moons.push(new Moon(parseInt(match[1]), parseInt(match[2]), parseInt(match[3])))
   moons2.push(new Moon(parseInt(match[1]), parseInt(match[2]), parseInt(match[3])))
 });
@@ -75,7 +78,7 @@ while (true) {
 
 p([seenStatesX.size, seenStatesY.size, seenStatesZ.size]);
 
-function gcd(a: number, b: number) {
+function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
 }
 

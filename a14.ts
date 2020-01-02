@@ -20,7 +20,7 @@ class Reaction {
       // now produce the rest
       const factor = Math.ceil(requiredQuantity / this.quantity);
       this.ingredients.forEach((ingredientQuantity, ingredient) => {
-        reactions.get(ingredient).produce(ingredientQuantity * factor, reactions);
+        reactions.get(ingredient)!.produce(ingredientQuantity * factor, reactions);
       });
 
       const producedQuantity = factor * this.quantity;
@@ -51,10 +51,10 @@ input.forEach(line => {
 });
 
 
-const fuel = reactions.get("FUEL");
+const fuel = reactions.get("FUEL")!;
 fuel.produce(1, reactions);
 
-const ore = reactions.get("ORE");
+const ore = reactions.get("ORE")!;
 const approximateOrePerFuel = ore.produced;
 p(approximateOrePerFuel);
 

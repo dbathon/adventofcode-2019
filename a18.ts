@@ -10,12 +10,18 @@ input.forEach((row, y) => row.split("").forEach((cell, x) => {
   map.set(x, y, cell);
 }));
 
-function isKey(cell: string) {
+function isKey(cell: string | undefined) {
+  if (cell === undefined) {
+    return false;
+  }
   const charCode = cell.charCodeAt(0);
   return ("a".charCodeAt(0) <= charCode && "z".charCodeAt(0) >= charCode) || cell === "@";
 }
 
-function isDoor(cell: string) {
+function isDoor(cell: string | undefined) {
+  if (cell === undefined) {
+    return false;
+  }
   const charCode = cell.charCodeAt(0);
   return "A".charCodeAt(0) <= charCode && "Z".charCodeAt(0) >= charCode;
 }
@@ -40,7 +46,7 @@ function buildGraph(map: Map2D<string>, startNode: Node): Map<string, Edge[]> {
         .map(node => {
           let newRequiredKeys = requiredKeys;
           if (isDoor(node.value)) {
-            newRequiredKeys = [...newRequiredKeys, node.value.toLowerCase()];
+            newRequiredKeys = [...newRequiredKeys, node.value!.toLowerCase()];
           }
           return new Neighbor(node, 1, newRequiredKeys);
         });
@@ -53,11 +59,11 @@ function buildGraph(map: Map2D<string>, startNode: Node): Map<string, Edge[]> {
   const queue = [startNode];
 
   while (queue.length > 0) {
-    const node = queue.shift();
+    const node = queue.shift()!;
     const edges = findEdges(node);
-    result.set(node.value, edges);
+    result.set(node.value!, edges);
     edges.forEach(edge => {
-      if (!result.has(edge.node.value)) {
+      if (!result.has(edge.node.value!)) {
         queue.push(edge.node);
       }
     });
@@ -80,22 +86,22 @@ const graph = buildGraph(map, map.getNode(x, y));
 // graph.forEach((value, key) => p([key, value.map(edge => [edge.node.value, edge.steps, edge.requiredKeys])]));
 
 function getDistance(fromKey: string, toKey: string, graph: Map<string, Edge[]>, hasKey: (key: string) => boolean) {
-  let result: number = undefined;
+  let result: number | undefined = undefined;
   dijkstraSearch((key: string, _, distance) => {
     if (key === toKey) {
       result = distance;
       return null;
     }
-    return graph.get(key)
+    return graph.get(key)!
       .filter(edge => edge.requiredKeys.every(key => hasKey(key)))
       .map(edge => {
-        return new Neighbor(edge.node.value, edge.steps);
+        return new Neighbor(edge.node.value!, edge.steps, null);
       });
-  }, fromKey);
+  }, fromKey, null);
   return result;
 }
 
-function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string): number {
+function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string): number | undefined {
   class PathNode implements DijkstraNode {
     private nodeKey: string;
     readonly pathLength: number;
@@ -116,7 +122,7 @@ function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string):
   let lastDistance = -1;
   let calls = 0;
 
-  let result: number = undefined;
+  let result: number | undefined = undefined;
 
   dijkstraSearch((node, _, distance) => {
     ++calls;
@@ -134,20 +140,17 @@ function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string):
       return node.getNodeKey().includes(key);
     }
     return allKeys.filter(key => !hasKey(key))
-      .map(key => {
-        let neighbor: Neighbor<PathNode, unknown> = undefined;
-        graphs.forEach((graph, index) => {
-          const steps = getDistance(node.currentKeys[index], key, graph, hasKey);
-          if (steps !== undefined) {
-            const newCurrentKeys = [...node.currentKeys];
-            newCurrentKeys[index] = key;
-            neighbor = new Neighbor(new PathNode(node, key, newCurrentKeys), steps);
-          }
-        })
-        return neighbor;
-      })
-      .filter(neighbor => neighbor !== undefined);
-  }, new PathNode(null, startKey, graphs.map(_ => startKey)));
+      .map(key => graphs.map((graph, index) => {
+        const steps = getDistance(node.currentKeys[index], key, graph, hasKey);
+        if (steps !== undefined) {
+          const newCurrentKeys = [...node.currentKeys];
+          newCurrentKeys[index] = key;
+          return [new Neighbor(new PathNode(node, key, newCurrentKeys), steps, null)];
+        }
+        return [];
+      }))
+      .flat(2);
+  }, new PathNode(null, startKey, graphs.map(_ => startKey)), null);
 
   return result;
 }

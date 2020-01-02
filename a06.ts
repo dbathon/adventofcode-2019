@@ -34,4 +34,6 @@ const c2 = chain("YOU");
 
 const firstCommon = c1.find(name => c2.includes(name));
 
-p(c1.indexOf(firstCommon) + c2.indexOf(firstCommon));
+if (firstCommon !== undefined) {
+  p(c1.indexOf(firstCommon) + c2.indexOf(firstCommon));
+}
