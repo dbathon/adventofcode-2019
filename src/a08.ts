@@ -1,6 +1,6 @@
 import { p, readLines, findMax, splitArray } from "./util/util";
 
-const input = readLines('input/a08.txt')[0].split("");
+const input = readLines("input/a08.txt")[0].split("");
 
 const width = 25;
 const layerLength = width * 6;

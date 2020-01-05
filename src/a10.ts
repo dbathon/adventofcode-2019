@@ -1,7 +1,7 @@
 import { p, readLines, findMax } from "./util/util";
 import { Map2D } from "./util/map2D";
 
-const input = readLines('input/a10.txt');
+const input = readLines("input/a10.txt");
 
 class Asteroid {
   constructor(readonly x: number, readonly y: number) { }

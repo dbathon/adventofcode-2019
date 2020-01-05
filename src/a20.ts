@@ -2,7 +2,7 @@ import { p, readLines } from "./util/util";
 import { Map2D, Map2DNode } from "./util/map2D";
 import { dijkstraSearch, Neighbor, Node as DijkstraNode } from "./util/graphUtil";
 
-const input = readLines('input/a20.txt', false);
+const input = readLines("input/a20.txt", false);
 
 const map: Map2D<string> = new Map2D();
 
@@ -30,16 +30,16 @@ map.forEachNode((node) => {
   if (node.value === ".") {
     let name: string | undefined = undefined;
     if (isLetter(node.getUp().value)) {
-      name = node.getUp().getUp().value! + node.getUp().value!
+      name = node.getUp().getUp().value! + node.getUp().value!;
     }
     else if (isLetter(node.getLeft().value)) {
-      name = node.getLeft().getLeft().value! + node.getLeft().value!
+      name = node.getLeft().getLeft().value! + node.getLeft().value!;
     }
     else if (isLetter(node.getRight().value)) {
-      name = node.getRight().value! + node.getRight().getRight().value!
+      name = node.getRight().value! + node.getRight().getRight().value!;
     }
     else if (isLetter(node.getDown().value)) {
-      name = node.getDown().value! + node.getDown().getDown().value!
+      name = node.getDown().value! + node.getDown().getDown().value!;
     }
     if (name !== undefined) {
       if (uniqueEntrances.has(name)) {

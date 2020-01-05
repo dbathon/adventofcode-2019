@@ -2,7 +2,7 @@ import { p, readLines } from "./util/util";
 import { Map2D, Map2DNode } from "./util/map2D";
 import { dijkstraSearch, Neighbor, Node as DijkstraNode } from "./util/graphUtil";
 
-const input = readLines('input/a18.txt');
+const input = readLines("input/a18.txt");
 
 const map: Map2D<string> = new Map2D();
 
@@ -78,7 +78,7 @@ map.forEach((_x, _y, cell) => {
     x = _x;
     y = _y;
   }
-})
+});
 p([x, y]);
 
 const graph = buildGraph(map, map.getNode(x, y));
@@ -116,7 +116,7 @@ function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string):
   }
 
   const allKeysNotUnique: string[] = [];
-  graphs.forEach(graph => allKeysNotUnique.push(...graph.keys()))
+  graphs.forEach(graph => allKeysNotUnique.push(...graph.keys()));
   const allKeys = [...new Set(allKeysNotUnique)];
 
   let lastDistance = -1;
@@ -138,7 +138,7 @@ function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string):
     }
     const hasKey = (key: string) => {
       return node.getNodeKey().includes(key);
-    }
+    };
     return allKeys.filter(key => !hasKey(key))
       .map(key => graphs.map((graph, index) => {
         const steps = getDistance(node.currentKeys[index], key, graph, hasKey);
@@ -157,7 +157,7 @@ function findShortestPathSteps(graphs: Map<string, Edge[]>[], startKey: string):
 
 p(findShortestPathSteps([graph], "@"));
 
-// part 2 
+// part 2
 
 const oldStart = map.getNode(x, y);
 oldStart.value = "#";
@@ -168,7 +168,7 @@ const newStarts = [
   oldStart.getUp().getRight(),
   oldStart.getDown().getLeft(),
   oldStart.getDown().getRight()
-]
+];
 
 newStarts.forEach((node, index) => node.value = "@");
 

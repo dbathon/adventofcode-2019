@@ -1,6 +1,6 @@
 import { p, readLines, sum } from "./util/util";
 
-const input = readLines('input/a12.txt');
+const input = readLines("input/a12.txt");
 
 class Moon {
   constructor(public x: number, public y: number, public z: number,
@@ -39,8 +39,8 @@ input.forEach(line => {
   if (match === null) {
     throw "invalid input line: " + line;
   }
-  moons.push(new Moon(parseInt(match[1]), parseInt(match[2]), parseInt(match[3])))
-  moons2.push(new Moon(parseInt(match[1]), parseInt(match[2]), parseInt(match[3])))
+  moons.push(new Moon(parseInt(match[1]), parseInt(match[2]), parseInt(match[3])));
+  moons2.push(new Moon(parseInt(match[1]), parseInt(match[2]), parseInt(match[3])));
 });
 
 function doIteration(moons: Moon[]) {

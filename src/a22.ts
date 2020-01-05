@@ -1,8 +1,8 @@
 import { p, readLines } from "./util/util";
 
-const input = readLines('input/a22.txt');
+const input = readLines("input/a22.txt");
 
-function gcdExtended(a: bigint, b: bigint): { g: bigint, x: bigint, y: bigint } {
+function gcdExtended(a: bigint, b: bigint): { g: bigint, x: bigint, y: bigint; } {
   if (a === 0n) {
     return { g: b, x: 0n, y: 1n };
   }
@@ -121,7 +121,7 @@ function operationsAsModOperation(input: string[], n: bigint, inverse = false): 
     if (card < 0 || card >= N) {
       throw "illeagl card: " + card + ", " + operation;
     }
-  })
+  });
 
   p(card);
 
@@ -130,7 +130,7 @@ function operationsAsModOperation(input: string[], n: bigint, inverse = false): 
     if (card < 0 || card >= N) {
       throw "illeagl card: " + card + ", " + operation;
     }
-  })
+  });
 
   p(card);
 }

@@ -1,6 +1,6 @@
-import { readLines, sum, p } from './util/util';
+import { readLines, sum, p } from "./util/util";
 
-const numbers = readLines('input/a01.txt').map(str => parseInt(str));
+const numbers = readLines("input/a01.txt").map(str => parseInt(str));
 
 p(numbers);
 

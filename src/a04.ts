@@ -2,7 +2,7 @@ import { p } from "./util/util";
 
 function rulesMet(pass: number, extended = false) {
   const str: string = pass + "";
-  let last = -1
+  let last = -1;
   let multi = 1;
   let multis = [];
   for (let i = 0; i < str.length; ++i) {
@@ -15,7 +15,7 @@ function rulesMet(pass: number, extended = false) {
     }
     else {
       multis.push(multi);
-      multi = 1
+      multi = 1;
     }
     last = digit;
   }
@@ -24,7 +24,7 @@ function rulesMet(pass: number, extended = false) {
     return multis.includes(2);
   }
   else {
-    return multis.filter(el => el >= 2).length > 0
+    return multis.filter(el => el >= 2).length > 0;
   }
 }
 

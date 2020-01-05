@@ -1,13 +1,13 @@
-import { IntCodeComputer } from './util/intCodeComputer';
+import { IntCodeComputer } from "./util/intCodeComputer";
 import { p, readLines } from "./util/util";
 
-const memory = readLines('input/a07.txt')[0].split(",").map(str => parseInt(str));
+const memory = readLines("input/a07.txt")[0].split(",").map(str => parseInt(str));
 
 
 function runAmps(sequence: number[], withFeedback = false) {
   const amps = sequence.map(phaseSetting => {
     const comp = new IntCodeComputer(memory);
-    comp.input = [phaseSetting]
+    comp.input = [phaseSetting];
     return comp;
   });
 
@@ -28,7 +28,7 @@ function runAmps(sequence: number[], withFeedback = false) {
 const settings = [0, 1, 2, 3, 4];
 
 function findBest(settings: number[], withFeedback: boolean) {
-  let max = -1
+  let max = -1;
   let maxSequece = null;
 
   settings.forEach(i1 => {

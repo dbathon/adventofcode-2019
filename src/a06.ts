@@ -1,6 +1,6 @@
 import { readLines, p } from "./util/util";
 
-const lines = readLines('input/a06.txt');
+const lines = readLines("input/a06.txt");
 
 const orbitMap: Map<string, string> = new Map();
 

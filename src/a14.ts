@@ -1,6 +1,6 @@
 import { p, readLines } from "./util/util";
 
-const input = readLines('input/a14.txt');
+const input = readLines("input/a14.txt");
 
 class Reaction {
   ingredients: Map<string, number> = new Map();
@@ -41,7 +41,7 @@ input.forEach(line => {
   const parse = (str: string) => {
     const [quantity, chemical] = str.split(" ");
     return new Reaction(chemical, parseInt(quantity));
-  }
+  };
   const reaction = parse(result);
   ingredients.forEach(ingredient => {
     const dummy = parse(ingredient);

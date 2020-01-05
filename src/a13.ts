@@ -1,7 +1,7 @@
-import { IntCodeComputer } from './util/intCodeComputer';
-import { readLines, p, splitArray, sum } from './util/util';
+import { IntCodeComputer } from "./util/intCodeComputer";
+import { readLines, p, splitArray, sum } from "./util/util";
 
-const memory = readLines('input/a13.txt')[0].split(",").map(str => parseInt(str));
+const memory = readLines("input/a13.txt")[0].split(",").map(str => parseInt(str));
 
 const output = new IntCodeComputer(memory).run();
 
@@ -12,7 +12,7 @@ function printScreen() {
 }
 
 function draw(x: number, y: number, tile: number) {
-  const line: number[] = screen[y] || []
+  const line: number[] = screen[y] || [];
   line[x] = tile;
   screen[y] = line;
 }
@@ -59,7 +59,7 @@ comp.writeOutput = (value) => {
       }
     }
   }
-}
+};
 comp.run();
 
 p(score);

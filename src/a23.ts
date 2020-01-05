@@ -1,7 +1,7 @@
-import { IntCodeComputer } from './util/intCodeComputer';
-import { readLines, p } from './util/util';
+import { IntCodeComputer } from "./util/intCodeComputer";
+import { readLines, p } from "./util/util";
 
-const memory = readLines('input/a23.txt')[0].split(",").map(str => parseInt(str));
+const memory = readLines("input/a23.txt")[0].split(",").map(str => parseInt(str));
 
 function run(withNatHandling = false) {
   const computers: IntCodeComputer[] = [];

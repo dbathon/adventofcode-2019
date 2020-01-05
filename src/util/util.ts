@@ -1,8 +1,8 @@
-import { readFileSync } from 'fs';
+import { readFileSync } from "fs";
 
 export function readLines(path: string, trim = true) {
   const input = readFileSync(path).toString();
-  return input.split('\n').map(line => trim ? line.trim() : line).filter(line => line.length > 0);
+  return input.split("\n").map(line => trim ? line.trim() : line).filter(line => line.length > 0);
 }
 
 export function sum(numbers: number[]) {
@@ -13,7 +13,7 @@ export function p(input: any) {
   console.log(typeof input === "string"
     ? input
     : JSON.stringify(input, (key, value) =>
-      typeof value === 'bigint'
+      typeof value === "bigint"
         ? value.toString()
         : value));
 }
@@ -26,7 +26,7 @@ export function splitArray<T>(array: T[], splitLength: number): T[][] {
   return result;
 }
 
-export function findMax<T>(list: T[], toNumber: (t: T) => number): { max: number | undefined, maxElement: T | undefined } {
+export function findMax<T>(list: T[], toNumber: (t: T) => number): { max: number | undefined; maxElement: T | undefined; } {
   let max: number | undefined = undefined;
   let maxElement: T | undefined = undefined;
   list.forEach(element => {

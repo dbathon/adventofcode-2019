@@ -1,8 +1,8 @@
-import { IntCodeComputer } from './util/intCodeComputer';
-import { readLines, p } from './util/util';
+import { IntCodeComputer } from "./util/intCodeComputer";
+import { readLines, p } from "./util/util";
 import { Map2D } from "./util/map2D";
 
-const memory = readLines('input/a19.txt')[0].split(",").map(str => parseInt(str));
+const memory = readLines("input/a19.txt")[0].split(",").map(str => parseInt(str));
 
 const map: Map2D<string> = new Map2D();
 

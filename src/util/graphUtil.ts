@@ -43,7 +43,7 @@ export function dijkstraSearch<N extends Node | string, State>(
         if (!seen.has(getNodeKey(info.node))) {
           queue.insert(new QueueEntry(info.node, info.state, entry.distance + info.distance));
         }
-      })
+      });
     }
   }
 }

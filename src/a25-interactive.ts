@@ -1,8 +1,8 @@
-import { IntCodeComputer } from './util/intCodeComputer';
-import { readLines, p } from './util/util';
-import { readSync, closeSync, openSync } from 'fs';
+import { IntCodeComputer } from "./util/intCodeComputer";
+import { readLines, p } from "./util/util";
+import { readSync, closeSync, openSync } from "fs";
 
-const memory = readLines('input/a25.txt')[0].split(",").map(str => parseInt(str));
+const memory = readLines("input/a25.txt")[0].split(",").map(str => parseInt(str));
 
 function readLine() {
   const bytesRead: number[] = [];
@@ -10,7 +10,7 @@ function readLine() {
 
   let fd = undefined;
   try {
-    fd = openSync('/dev/stdin', 'rs');
+    fd = openSync("/dev/stdin", "rs");
 
     while (bytesRead[bytesRead.length - 1] !== 10) {
       if (readSync(fd, tempBuffer, 0, 1, null) > 0) {
@@ -24,7 +24,7 @@ function readLine() {
     }
   }
 
-  return Buffer.from(bytesRead).toString('utf-8');
+  return Buffer.from(bytesRead).toString("utf-8");
 }
 
 function textToInput(text: string) {

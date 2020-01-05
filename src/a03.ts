@@ -1,6 +1,6 @@
 import { readLines, p } from "./util/util";
 
-const lines = readLines('input/a03.txt');
+const lines = readLines("input/a03.txt");
 const line1 = lines[0].split(",");
 const line2 = lines[1].split(",");
 
@@ -27,7 +27,7 @@ function positions(path: string[]) {
       else {
         throw "unexpected " + dir;
       }
-      ++steps
+      ++steps;
       const pos = x + "x" + y;
       if (!result.has(pos)) {
         result.set(pos, steps);

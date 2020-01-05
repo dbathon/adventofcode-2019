@@ -1,6 +1,6 @@
 import { p, readLines, sum } from "./util/util";
 
-const input = readLines('input/a16.txt')[0].split("").map(str => parseInt(str));
+const input = readLines("input/a16.txt")[0].split("").map(str => parseInt(str));
 
 const BASE_PATTERN = [0, 1, 0, -1];
 
@@ -19,7 +19,7 @@ function fft(input: number[], iterations: number) {
 }
 
 function fftFast(input: number[], iterations: number, startOutDigit: number) {
-  const length = input.length
+  const length = input.length;
   let cur = input.slice(0);
   let next = input.slice(0);
   if (startOutDigit < length / 2) {
@@ -48,5 +48,5 @@ for (let i = 0; i < 10000; ++i) {
 }
 const messageOffset = parseInt(input.join("").substr(0, 7));
 p(messageOffset);
-p(realInput.length)
+p(realInput.length);
 p(fftFast(realInput, 100, messageOffset).join("").substr(messageOffset, 8));

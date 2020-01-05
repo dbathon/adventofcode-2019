@@ -1,7 +1,7 @@
 import { p, readLines } from "./util/util";
 import { Map2D, Map2DNode } from "./util/map2D";
 
-const input = readLines('input/a24.txt');
+const input = readLines("input/a24.txt");
 
 const map: Map2D<string> = new Map2D();
 
@@ -21,7 +21,7 @@ function nextIteration(map: Map2D<string>): Map2D<string> {
       current = "#";
     }
     result.set(node.x, node.y, current);
-  })
+  });
 
   return result;
 }
@@ -111,7 +111,7 @@ function nextIterationRecursive(levels: Map2D<Map2D<string>>): Map2D<Map2D<strin
             // simple case
             neighbors.push(neighbor);
           }
-        })
+        });
         const adjacentBugs = neighbors.filter(neighbor => neighbor.value === "#").length;
         // p([levelNode.y, node.x, node.y, neighbors.length, adjacentBugs]);
         let current = node.value || ".";
@@ -123,8 +123,8 @@ function nextIterationRecursive(levels: Map2D<Map2D<string>>): Map2D<Map2D<strin
         }
         resultMap.set(node.x, node.y, current);
       }
-    })
-  })
+    });
+  });
 
   return result;
 }
@@ -149,6 +149,6 @@ levels.forEachNode(node => {
     if (node2.value === "#") {
       ++count;
     }
-  })
+  });
 });
 p(count);

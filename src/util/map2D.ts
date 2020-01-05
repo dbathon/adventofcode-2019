@@ -1,4 +1,4 @@
-import { Node } from './graphUtil';
+import { Node } from "./graphUtil";
 
 export class Map2DNode<T> implements Node {
   constructor(readonly map: Map2D<T>, readonly x: number, readonly y: number) { }
@@ -82,7 +82,7 @@ export class Map2D<T> {
       // now just copy the data from oldMap
       oldMap.forEach((x, y, value) => {
         this.set(x, y, value);
-      })
+      });
 
       return this.getIndex(x, y);
     }
